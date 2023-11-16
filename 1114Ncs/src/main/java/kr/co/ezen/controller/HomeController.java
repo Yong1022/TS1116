@@ -62,6 +62,7 @@ public class HomeController {
 		boardService.deleteInfo(student);
 		return"home";
 	}
+	//히힣
 	
 	
 }
