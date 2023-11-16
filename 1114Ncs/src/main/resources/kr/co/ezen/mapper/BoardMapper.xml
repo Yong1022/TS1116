@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="kr.co.ezen.mapper.BoardMapper">
+
+<sql id="search">
+where name like concat('%', #{namekey}, '%')
+</sql>
+
+<select id="getList" parameterType="kr.co.ezen.entity.Student" resultType="kr.co.ezen.entity.Student">
+	select * from student <include refid="search"/>order by name asc
+</select>
+
+<select id="getListInfo" parameterType="kr.co.ezen.entity.Info" resultType="kr.co.ezen.entity.Info">
+	select * from Info where name=#{name}order by name asc
+</select>
+
+<insert id="insert_St" parameterType="kr.co.ezen.entity.Student">
+		<selectKey resultType="kr.co.ezen.entity.Student"
+			order="BEFORE" keyProperty="studentNum">
+			select IFNULL(max(studentNum)+1,1) as studentNum
+			from student
+		</selectKey>
+	insert into
+	student (studentNum, name) value (#{studentNum}, #{name})
+</insert>
+
+<insert id="insert" parameterType="kr.co.ezen.entity.Info">
+	insert into
+	Info (name, adr, school, major) value (#{name}, #{adr}, #{school}, #{major})
+</insert>
+
+<delete id="delete" parameterType="kr.co.ezen.entity.Student">
+	delete from student where name=#{name}
+</delete>
+<delete id="deleteInfo" parameterType="kr.co.ezen.entity.Student">
+	delete from info where name=#{name}
+</delete>
+
+<update id="update" parameterType="kr.co.ezen.entity.Info">
+update info set adr=#{adr}, school=#{school}, major=#{major} where name=#{name}
+</update>
+
+	
+</mapper>
